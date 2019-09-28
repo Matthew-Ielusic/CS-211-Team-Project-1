@@ -26,16 +26,16 @@ public class FileParser {
         //makeList1 from controlling which list is being built.
         boolean makeList1 = true;
 
-        while (scan.hasNext()) {
+        while (scan.hasNextLine()) {
 
             if (makeList1 == true) { //making list1
-                String next = scan.next();
+                String next = scan.nextLine();
 
                 if (next.equals("END")) {
                     //when "END" is reached, move on to list2
                     makeList1  = false;
                 } else {
-                    
+
                     ////
                     ////////
                     //Add correctly built Person object to list1
@@ -47,7 +47,7 @@ public class FileParser {
                     System.out.println("List 1");
                 }
             } else { //making list2
-                String next = scan.next();
+                String next = scan.nextLine();
                 
                 ////
                 ////////

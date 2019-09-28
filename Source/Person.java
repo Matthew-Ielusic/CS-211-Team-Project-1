@@ -25,4 +25,17 @@ public class Person {
       }
       this.children.add(newChild);
    }
+
+   //Get-Sets
+   public Person getMother() {
+      return mother;
+   }
+
+   public Person getFather() {
+      return father;
+   }
+
+   public ArrayList<Person> getChildren() {
+      return children;
+   }
 }

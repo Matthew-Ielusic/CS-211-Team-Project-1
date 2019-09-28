@@ -5,28 +5,22 @@ import java.lang.IllegalArgumentException;
 
 public class Person {
 
+   private String name;
    private Person mother;
    private Person father;
    private ArrayList<Person> children;
    
-   public Person() {
-      this(null, null);
-   }
-   
-   public Person(Person mother, Person father) {
-      this.mother = mother;
-      this.father = father;
+   // MATT: I now think my original set-of-constructors is wrong.
+   // The way the input file is structured, when we first instantiate a person,
+   // All we know is their name.
+   // The mother, father, and children must be set later.
+   public Person(String name) {
+      this.name = name;
       this.children = new ArrayList<>();
    }
    
-   public void addChild(Person newChild) {
-      if (newChild == null) {
-         throw new IllegalArgumentException();
-      }
-      this.children.add(newChild);
-   }
-
-   //Get-Sets
+   // Getters
+   
    public Person getMother() {
       return mother;
    }
@@ -38,4 +32,22 @@ public class Person {
    public ArrayList<Person> getChildren() {
       return children;
    }
+   
+   // Setters
+   
+   public void setMother(Person newMom) {
+      this.mother = newMom;
+   }
+
+   public void setFather(Person newDad) {
+      this.father = newDad;
+   }
+   
+   public void addChild(Person newChild) {
+      if (newChild == null) {
+         throw new IllegalArgumentException();
+      }
+      this.children.add(newChild);
+   }
+
 }

@@ -1,0 +1,30 @@
+Mom
+Maternal Grandma
+Maternal Grandpa
+Dad
+Paternal Grandma
+Paternal Grandpa
+Child
+Auntie
+Little sister
+Little brother
+END
+Mom
+Maternal Grandma
+Maternal Grandpa
+Dad
+Paternal Grandma
+Paternal Grandpa
+Child
+Mom
+Dad
+Little sister
+Mom
+Dad
+Little brother
+Mom
+Dad
+Auntie
+Maternal Grandma
+Maternal Grandpa
+END

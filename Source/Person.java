@@ -37,7 +37,11 @@ public class Person {
       return children;
    }
    
-   // Setters
+   public String getName() {
+      return name;
+   }
+   
+   // Mutators
    
    public void setMother(Person newMom) {
       this.mother = newMom;

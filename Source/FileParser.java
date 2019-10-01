@@ -13,16 +13,14 @@ import java.io.*;
 
 public class FileParser {
     private File file;
-    private ArrayList<Person> listOfPeople;
-    private ArrayList<Person> familyTree;
+    private ArrayList<Person> people;
 
     private static final String DELIMITER_BETWEEN_PARTS_OF_FILE = "END";
     
     public FileParser (File file) throws FileNotFoundException {
         // Initialize fields
         this.file = file;
-        this.listOfPeople = new ArrayList<>();
-        this.familyTree = new ArrayList<>();
+        this.people = new ArrayList<>();
 
         Scanner scanner = new Scanner(file);               
         
@@ -36,7 +34,7 @@ public class FileParser {
       
       while (!line.equals(DELIMITER_BETWEEN_PARTS_OF_FILE)) {
          Person newPerson = new Person(line);
-         this.listOfPeople.add(newPerson);
+         this.people.add(newPerson);
          
          line = fileScanner.nextLine();
       }
@@ -52,41 +50,48 @@ public class FileParser {
           Person p = getPersonFromString(next);
 
           if(scan.hasNextLine()) {
-            p.setMother(getPersonFromString(scan.nextLine()));          
+            Person mother = getPersonFromString(scan.nextLine());
+            if (mother != null) {
+                p.setMother(mother);       
+                mother.addChild(p);   
           }
           if(scan.hasNextLine()) {
-            p.setFather(getPersonFromString(scan.nextLine()));
+            Person father = getPersonFromString(scan.nextLine());
+            if (father != null) {
+                p.setFather(father);
+                father.addChild(p);
+            }
           }
-          
-          familyTree.add(p);
         } 
       }
     }
+    }
+    
+    private void calculateChildren() {
+      for (Person child : people) {
+         Person mother = child.getMother();
+         if (mother != null) {
+            mother.addChild(child);
+         }
+         Person father = child.getFather();
+         if (father != null) {
+            father.addChild(child);
+         }
+      }
+   }
+        
+
+   public ArrayList<Person> getPeople() {
+      return people;
+   }
 
     //If person of given name is not found, null is returned
     private Person getPersonFromString(String name) {
-      for (int i=0; i < listOfPeople.size(); i++) {
-        if(listOfPeople.get(i).toString().equals(name)) {
-          return listOfPeople.get(i);
+      for (int i=0; i < people.size(); i++) {
+        if(people.get(i).toString().equals(name)) {
+          return people.get(i);
         }
       }
       return null;
-    }
-
-    
-    //Getters
-    public ArrayList<Person> getPeople() {
-        return listOfPeople;
-    }
-
-    public ArrayList<Person> getFamilyTree() {
-        return familyTree;
-    }
-    
-    // toString for ease of testing
-    // Feel free to change this as-needed
-    @Override
-    public String toString() {
-      return this.listOfPeople.toString();
     }
 }

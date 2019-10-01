@@ -18,9 +18,13 @@ public class Person {
       this.name = name;
       this.children = new ArrayList<>();
    }
+
+   public String toString() {
+      return name;
+   }
    
    // Getters
-   
+
    public Person getMother() {
       return mother;
    }

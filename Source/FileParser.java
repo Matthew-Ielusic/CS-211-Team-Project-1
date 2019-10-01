@@ -1,14 +1,21 @@
 import java.util.*;
 import java.io.*;
 
+// MATT: tudor.dat has two parts.  The first part is an unordered list of people, and the second part
+// is the list of people, ordered [Person, their mother, their father] [Someone else, that person's mother, that person's father], etc.
+// So I think parsing the file should be done in two steps:
+// First, use the first half of the file to figure out who the people are
+// Second, use the second half of the file to figure out how the people we calculated in step 1 are related.
+
+//NICK: The method "calulateFamilyTree" does so by adding mothers and fathers to the instances found in out listOfPeople.
+//it also adds them to familyTree. In that way, both arrayLists reflect the same data
+        
+
 public class FileParser {
     private File file;
     private ArrayList<Person> listOfPeople;
     private ArrayList<Person> familyTree;
-    
-    private ArrayList<Person> list1;
-    private ArrayList<Person> list2;
-    
+
     private static final String DELIMITER_BETWEEN_PARTS_OF_FILE = "END";
     
     public FileParser (File file) throws FileNotFoundException {
@@ -16,23 +23,11 @@ public class FileParser {
         this.file = file;
         this.listOfPeople = new ArrayList<>();
         this.familyTree = new ArrayList<>();
-        this.list1 = new ArrayList<>();
-        this.list2 = new ArrayList<>();
-        Scanner scanner = new Scanner(file);       
+
+        Scanner scanner = new Scanner(file);               
         
-         
-        //parse the file in the constructor,
-        //since FileParser objects serve no purpose until parsed
-        
-        // MATT: tudor.dat has two parts.  The first part is an unordered list of people, and the second part
-        // is the list of people, ordered [Person, their mother, their father] [Someone else, that person's mother, that person's father], etc.
-        // So I think parsing the file should be done in two steps:
-        // First, use the first half of the file to figure out who the people are
-        // Second, use the second half of the file to figure out how the people we calculated in step 1 are related.
-        
-        calculateListOfPeople(scanner);
-        // TODO: Not implemented
-        // calculateFamilyTree(file)
+        calculateListOfPeople(scanner);  //NICK: Parses first part of file
+        calculateFamilyTree(scanner); //NICK: Parses second part
     }
     
     private void calculateListOfPeople(Scanner fileScanner) {
@@ -47,61 +42,45 @@ public class FileParser {
       }
     }
 
-    //parses file, builds list1 and list2
+    
     //private method to avoid being called twice
-    private void parse() throws FileNotFoundException {
-        Scanner scan = new Scanner(file);
-        list1 = new ArrayList<Person>();
-        list2 = new ArrayList<Person>();
+    private void calculateFamilyTree(Scanner scan) {
+      while (scan.hasNextLine()) {
+        String next = scan.nextLine();
 
-        //Bool declared here, since initializing in while loop
-        //causes value to be reset every loop, preventing 
-        //makeList1 from controlling which list is being built.
-        boolean makeList1 = true;
+        if(!next.equals("END")) {
+          Person p = getPersonFromString(next);
 
-        while (scan.hasNextLine()) {
-
-            if (makeList1 == true) { //making list1
-                String next = scan.nextLine();
-
-                if (next.equals("END")) {
-                    //when "END" is reached, move on to list2
-                    makeList1  = false;
-                } else {
-
-                    ////
-                    ////////
-                    //Add correctly built Person object to list1
-                    ////////
-                    ////
-                    
-                    //Debugging line. Used to demonstrate that framework is working.
-                    //Delete before final product ships
-                    System.out.println("List 1");
-                }
-            } else { //making list2
-                String next = scan.nextLine();
-                
-                ////
-                ////////
-                //Add correctly built Person object to list2
-                ////////
-                ////
-
-                //Debugging line. Used to demonstrate that framework is working.
-                //Delete before final product ships
-                System.out.println("List 2");
-            }
-        } //end while loop. file has been parsed, lists have been built
-    }//end parse method
-
-    //Getters
-    public ArrayList<Person> getList1() {
-        return list1;
+          if(scan.hasNextLine()) {
+            p.setMother(getPersonFromString(scan.nextLine()));          
+          }
+          if(scan.hasNextLine()) {
+            p.setFather(getPersonFromString(scan.nextLine()));
+          }
+          
+          familyTree.add(p);
+        } 
+      }
     }
 
-    public ArrayList<Person> getList2() {
-        return list2;
+    //If person of given name is not found, null is returned
+    private Person getPersonFromString(String name) {
+      for (int i=0; i < listOfPeople.size(); i++) {
+        if(listOfPeople.get(i).toString().equals(name)) {
+          return listOfPeople.get(i);
+        }
+      }
+      return null;
+    }
+
+    
+    //Getters
+    public ArrayList<Person> getPeople() {
+        return listOfPeople;
+    }
+
+    public ArrayList<Person> getFamilyTree() {
+        return familyTree;
     }
     
     // toString for ease of testing

@@ -35,10 +35,10 @@ public class MainTest {
                for (int i = 0; i < familyTree.size(); i++) {
                   if(familyTree.get(i).toString().equals(choice)) {
                      System.out.println("Maternal Line:");
-                     System.out.println("    " +  familyTree.get(i));
+                     System.out.println("    " + familyTree.get(i));
                      System.out.println("\t" + familyTree.get(i).getMother());
                      System.out.println("Paternal Line:");
-                     System.out.println("    " +  familyTree.get(i));
+                     System.out.println("    " + familyTree.get(i));
                      System.out.println("\t" + familyTree.get(i).getFather());
                      System.out.println("Children:");
                      System.out.println(familyTree.get(i).getChildren().toString().replace("[","").replace("]", ""));
